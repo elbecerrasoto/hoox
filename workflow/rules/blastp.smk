@@ -45,8 +45,8 @@ rule bind_blasts:
         tmp=f"{RESULTS}/tmp_bind_blasts.txt",
     shell:
         """
-        fd -I '_blast.tsv' RESULTS | xargs cat > {params.tmp}
-        cat - {params.tmp} >| {output} <<< '{params.header}'
+        fd -IL '_blast\.tsv$' {RESULTS} | xargs cat >| {params.tmp}
+        cat - {params.tmp} >| {output} <<< {params.header}
         rm {params.tmp}
         """
 
@@ -60,5 +60,7 @@ rule all_proteins:
         width="80",
     shell:
         """
+        # fasta_unique is redundant but it brings more robustness
+        # blasts2faa.R only deduplicates using the fasta headers.
         workflow/scripts/blast2faa.R {input} | fasta_unique | fasta_pretty -w={params.width} >| {output}
         """

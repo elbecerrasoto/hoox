@@ -45,8 +45,8 @@ rule bind_hits:
         tmp=f"{RESULTS}/tmp_bind_hits.txt",
     shell:
         """
-        fd -I '_hits.tsv' RESULTS | xargs cat > {params.tmp}
-        cat - {params.tmp} >| {output} <<< '{params.header}'
+        fd -IL '_hits\.tsv$' {RESULTS} | xargs cat >| {params.tmp}
+        cat - {params.tmp} >| {output} <<< {params.header}
         rm {params.tmp}
         """
 
