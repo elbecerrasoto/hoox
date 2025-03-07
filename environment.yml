@@ -21,6 +21,7 @@ dependencies:
   - openjdk
   # install_Rlibs.R
   - zlib
+  - r-devtools
   # Makefile
   - black
   - isort
